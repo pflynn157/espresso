@@ -1,5 +1,5 @@
 
-func main -> int is
-    return 0;
+func main(args : str[]) is
+    var x : int := 0;
 end
 

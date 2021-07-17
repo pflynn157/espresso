@@ -67,6 +67,16 @@ int main(int argc, char **argv) {
     std::string className = GetClassName(input);
     std::cout << "Output: " << className << ".class" << std::endl;
     
+    Compiler *compiler = new Compiler(className);
+    compiler->Build(tree);
+    compiler->Write();
+    
+    if (runJavaP) {
+        className += ".class";
+        std::string cmd = "javap -verbose " + className;
+        system(cmd.c_str());
+    }
+    
     return 0;
 }
 

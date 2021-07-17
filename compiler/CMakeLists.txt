@@ -6,6 +6,7 @@ set(SRC
     Java/JavaWriter.cpp
     Java/JavaCode.cpp
     
+    Compiler.cpp
     Utils.cpp
 )
 
