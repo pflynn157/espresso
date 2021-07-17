@@ -10,7 +10,6 @@
 
 enum class AstType {
     EmptyAst,
-    ExternFunc,
     Func,
     Return,
     

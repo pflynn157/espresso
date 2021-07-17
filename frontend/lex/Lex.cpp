@@ -189,8 +189,7 @@ bool Scanner::isSymbol(char c) {
 }
 
 TokenType Scanner::getKeyword() {
-    if (buffer == "extern") return Extern;
-    else if (buffer == "func") return Func;
+    if (buffer == "func") return Func;
     else if (buffer == "enum") return Enum;
     else if (buffer == "end") return End;
     else if (buffer == "return") return Return;

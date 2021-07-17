@@ -27,23 +27,6 @@ private:
     AstType type = AstType::EmptyAst;
 };
 
-// Represents an extern function
-class AstExternFunction : public AstGlobalStatement {
-public:
-    explicit AstExternFunction(std::string name) : AstGlobalStatement(AstType::ExternFunc) {
-        this->name = name;
-    }
-    
-    void setArguments(std::vector<Var> args) { this->args = args; }
-    
-    std::string getName() { return name; }
-    std::vector<Var> getArguments() { return args; }
-    void print() override;
-private:
-    std::string name = "";
-    std::vector<Var> args;
-};
-
 // Represents a function
 class AstFunction : public AstGlobalStatement {
 public:

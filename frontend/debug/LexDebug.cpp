@@ -12,7 +12,6 @@ void Token::print() {
         case EmptyToken: std::cout << "?? "; break;
         case Eof: std::cout << "EOF "; break;
         
-        case Extern: std::cout << "EXTERN "; break;
         case Func: std::cout << "FUNC "; break;
         case Enum: std::cout << "ENUM "; break;
         case End: std::cout << "END "; break;

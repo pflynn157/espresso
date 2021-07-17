@@ -36,17 +36,6 @@ void AstTree::print() {
     }
 }
 
-void AstExternFunction::print() {
-    std::cout << "EXTERN FUNC " << name << "(";
-    for (auto var : args) {
-        std::cout << printDataType(var.type);
-        if (var.subType != DataType::Void)
-            std::cout << "*" << printDataType(var.subType);
-        std::cout << ", ";
-    }
-    std::cout << ")" << std::endl;
-}
-
 void AstFunction::print() {
     std::cout << "FUNC " << name << "(";
     for (auto var : args) {

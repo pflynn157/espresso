@@ -86,12 +86,6 @@ bool Parser::buildFunction(Token startToken) {
     localConsts.clear();
     
     Token token;
-    bool isExtern = false;
-
-    // Handle extern function
-    if (startToken.type == Extern) {
-        isExtern = true;
-    }
 
     // Make sure we have a function name
     token = scanner->getNext();
@@ -134,22 +128,12 @@ bool Parser::buildFunction(Token startToken) {
     }
     
     // Do syntax error check
-    if (token.type == SemiColon && !isExtern) {
-        syntax->addError(scanner->getLine(), "Expected \';\' for extern function.");
-        return false;
-    } else if (token.type == Is && isExtern) {
+    if (token.type != Is) {
         syntax->addError(scanner->getLine(), "Expected \'is\' keyword.");
         return false;
     }
 
     // Create the function object
-    if (isExtern) {
-        AstExternFunction *ex = new AstExternFunction(funcName);
-        ex->setArguments(args);
-        tree->addGlobalStatement(ex);
-        return true;
-    }
-    
     AstFunction *func = new AstFunction(funcName);
     func->setDataType(funcType, ptrType);
     func->setArguments(args);

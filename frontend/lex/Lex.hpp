@@ -15,7 +15,6 @@ enum TokenType {
     Eof,
     
     // Keywords
-    Extern,
     Func,
     Enum,
     End,
