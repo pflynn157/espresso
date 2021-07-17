@@ -13,6 +13,14 @@ Compiler::Compiler(std::string className) {
 }
 
 void Compiler::Build(AstTree *tree) {
+    // Generate the default constructor
+    // TODO: We should check if there's a constructor before doing this
+    JavaFunction *construct = builder->CreateMethod("<init>", "()V");
+
+    builder->CreateALoad(construct, 0);
+    builder->CreateInvokeSpecial(construct, "<init>", "java/lang/Object");
+    builder->CreateRetVoid(construct);
+
     // Build the functions
     for (auto GS : tree->getGlobalStatements()) {
         if (GS->getType() == AstType::Func) {
@@ -52,6 +60,8 @@ void Compiler::BuildFunction(AstGlobalStatement *GS) {
 // Builds a statement
 void Compiler::BuildStatement(AstStatement *stmt, JavaFunction *function) {
     switch (stmt->getType()) {
+        case AstType::VarDec: BuildVarDec(stmt, function); break;
+    
         case AstType::FuncCallStmt: BuildFuncCallStatement(stmt, function); break;
     
         case AstType::Return: {
@@ -60,6 +70,25 @@ void Compiler::BuildStatement(AstStatement *stmt, JavaFunction *function) {
             } else {
                 // TODO
             }
+        } break;
+        
+        default: {}
+    }
+}
+
+// Builds a variable declaration
+void Compiler::BuildVarDec(AstStatement *stmt, JavaFunction *function) {
+    AstVarDec *vd = static_cast<AstVarDec *>(stmt);
+    
+    switch (vd->getDataType()) {
+        case DataType::Object: {
+            objMap[vd->getName()] = aCount;
+            ++aCount;
+            
+            builder->CreateNew(function, vd->getClassName());
+            builder->CreateDup(function);
+            builder->CreateInvokeSpecial(function, "<init>", vd->getClassName());
+            builder->CreateAStore(function, aCount - 1);
         } break;
         
         default: {}
