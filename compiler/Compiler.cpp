@@ -50,7 +50,10 @@ void Compiler::BuildFunction(AstGlobalStatement *GS) {
         case Attr::Private: flags |= F_PRIVATE; break;
     }
     
-    JavaFunction *function = builder->CreateMethod(func->getName(), "([Ljava/lang/String;)V", flags);
+    std::string signature = "()V";
+    if (func->getName() == "main") signature = "([Ljava/lang/String;)V";
+    
+    JavaFunction *function = builder->CreateMethod(func->getName(), signature, flags);
     
     for (AstStatement *stmt : func->getBlock()->getBlock()) {
         BuildStatement(stmt, function);
@@ -85,6 +88,8 @@ void Compiler::BuildVarDec(AstStatement *stmt, JavaFunction *function) {
             objMap[vd->getName()] = aCount;
             ++aCount;
             
+            objTypeMap[vd->getName()] = vd->getClassName();
+            
             builder->CreateNew(function, vd->getClassName());
             builder->CreateDup(function);
             builder->CreateInvokeSpecial(function, "<init>", vd->getClassName());
@@ -104,6 +109,15 @@ void Compiler::BuildFuncCallStatement(AstStatement *stmt, JavaFunction *function
     }
     
     std::string signature = "";
+    std::string baseClass = "";
+    
+    if (fc->getObjectName() != "") {
+        baseClass = objTypeMap[fc->getObjectName()];
+        //if (baseClass == className) baseClass = "";
+        
+        int pos = objMap[fc->getObjectName()];
+        builder->CreateALoad(function, pos);
+    }
     
     for (AstExpression *expr : fc->getExpressions()) {
         signature = GetTypeForExpr(expr);
@@ -111,7 +125,7 @@ void Compiler::BuildFuncCallStatement(AstStatement *stmt, JavaFunction *function
     }
     
     signature = "(" + signature + ")V";
-    builder->CreateInvokeVirtual(function, fc->getName(), "", signature);
+    builder->CreateInvokeVirtual(function, fc->getName(), baseClass, signature);
 }
 
 // Builds an expression

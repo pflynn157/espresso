@@ -81,7 +81,20 @@ bool Parser::buildBlock(AstBlock *block, int stopLayer, AstIfStmt *parentBlock, 
                 } else if (token.type == LBracket) {
                     code = buildArrayAssign(block, idToken);
                 } else if (token.type == LParen) {
-                    code = buildFunctionCallStmt(block, idToken);
+                    Token varToken;
+                    varToken.type = EmptyToken;
+                    code = buildFunctionCallStmt(block, idToken, varToken);
+                } else if (token.type == Dot) {
+                    Token memberToken = scanner->getNext();
+                    if (memberToken.type != Id) {
+                        syntax->addError(scanner->getLine(), "Expected member name.");
+                    }
+                    
+                    token = scanner->getNext();
+                    if (token.type == LParen) {
+                        code = buildFunctionCallStmt(block, memberToken, idToken);
+                    }
+                    // TODO: Catch others
                 } else {
                     syntax->addError(scanner->getLine(), "Invalid use of identifier.");
                     token.print();

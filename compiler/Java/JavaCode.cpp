@@ -18,7 +18,7 @@ JavaFunction *JavaClassBuilder::CreateMethod(std::string name, std::string signa
     int methodPos = java->AddConst(method);
 
     //methodMap[name] = methodPos;
-    Method m(name, methodPos, className);
+    Method m(name, methodPos, className, signature);
     methodMap.push_back(m);
 
     return func;

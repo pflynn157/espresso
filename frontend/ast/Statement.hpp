@@ -51,10 +51,15 @@ public:
         this->name = name;
     }
     
+    void setObjectName(std::string objName) { this->objName = objName; }
+    
     std::string getName() { return name; }
+    std::string getObjectName() { return objName; }
+    
     void print();
 private:
     std::string name = "";
+    std::string objName = "";
 };
 
 // Represents a return statement

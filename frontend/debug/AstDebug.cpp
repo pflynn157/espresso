@@ -68,7 +68,9 @@ void AstFunction::print() {
 
 void AstFuncCallStmt::print() {
     std::cout << "    ";
-    std::cout << "FC " << name;
+    std::cout << "FC "; 
+    if (objName != "") std::cout << objName << ".";
+    std::cout << name;
     std::cout << std::endl;
 }
 

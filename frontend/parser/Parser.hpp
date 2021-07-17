@@ -30,7 +30,7 @@ protected:
     // Function.cpp
     bool getFunctionArgs(std::vector<Var> &args);
     bool buildFunction(Token startToken);
-    bool buildFunctionCallStmt(AstBlock *block, Token idToken);
+    bool buildFunctionCallStmt(AstBlock *block, Token idToken, Token varToken);
     bool buildReturn(AstBlock *block);
     
     // Variable.cpp

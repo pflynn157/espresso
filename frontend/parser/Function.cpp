@@ -192,9 +192,13 @@ bool Parser::buildFunction(Token startToken) {
 }
 
 // Builds a function call
-bool Parser::buildFunctionCallStmt(AstBlock *block, Token idToken) {
+bool Parser::buildFunctionCallStmt(AstBlock *block, Token idToken, Token varToken) {
     AstFuncCallStmt *fc = new AstFuncCallStmt(idToken.id_val);
     block->addStatement(fc);
+    
+    if (varToken.type == Id) {
+        fc->setObjectName(varToken.id_val);
+    }
     
     if (!buildExpression(fc, DataType::Void, RParen, Comma)) return false;
     

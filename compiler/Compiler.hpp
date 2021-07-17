@@ -29,4 +29,5 @@ private:
     
     int aCount = 1;
     std::map<std::string, int> objMap;
+    std::map<std::string, std::string> objTypeMap;
 };
