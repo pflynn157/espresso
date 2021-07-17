@@ -45,6 +45,7 @@ bool Parser::buildVariableDec(AstBlock *block) {
     token = scanner->getNext();
     DataType dataType = DataType::Void;
     bool isString = false;
+    std::string className = "";
     
     switch (token.type) {
         case Bool: dataType = DataType::Bool; break;
@@ -59,13 +60,32 @@ bool Parser::buildVariableDec(AstBlock *block) {
         case UInt64: dataType = DataType::UInt64; break;
         case Str: dataType = DataType::String; break;
         
-        default: {}
+        default: {
+            dataType = DataType::Object;
+            className = token.id_val;
+        }
     }
     
     token = scanner->getNext();
     
+    // We have a class
+    if (token.type == SemiColon ) {
+        if (dataType != DataType::Object) {
+            syntax->addError(scanner->getLine(), "Non-objects must have an init expression.");
+            return false;
+        }
+        
+        for (std::string name : toDeclare) {
+            AstVarDec *vd = new AstVarDec(name, dataType);
+            vd->setClassName(className);
+            block->addStatement(vd);
+            
+            auto typePair = std::pair<DataType, DataType>(dataType, DataType::Void);
+            typeMap[name] = typePair;
+        }
+    
     // We have an array
-    if (token.type == LBracket) {
+    } else if (token.type == LBracket) {
         AstVarDec *empty = new AstVarDec("", DataType::Array);
         if (!buildExpression(empty, DataType::Int32, RBracket)) return false;   
         
@@ -111,11 +131,6 @@ bool Parser::buildVariableDec(AstBlock *block) {
             
             typeMap[name] = std::pair<DataType, DataType>(DataType::Array, dataType);
         }
-    
-    // We're at the end of the declaration
-    } else if (token.type == SemiColon) {
-        syntax->addError(scanner->getLine(), "Expected init expression.");
-        return false;
         
     // Otherwise, we have a regular variable
     } else {

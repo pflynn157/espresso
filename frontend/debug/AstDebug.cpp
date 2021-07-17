@@ -22,6 +22,7 @@ std::string printDataType(DataType dataType) {
         case DataType::UInt64: return "uint64";
         case DataType::String: return "string";
         case DataType::Array: return "array";
+        case DataType::Object: return "object";
     }
     return "";
 }
@@ -86,6 +87,9 @@ void AstVarDec::print() {
         std::cout << "[";
         size->print();
         std::cout << "]";
+    }
+    if (dataType == DataType::Object) {
+        std::cout << "(" << className << ")";
     }
     std::cout << std::endl;
 }

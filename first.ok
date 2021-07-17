@@ -1,5 +1,6 @@
 
 routine main(args : str[]) is
+    var one : first;
+
     println("Hello!");
-    println(30);
 end
