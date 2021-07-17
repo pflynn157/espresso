@@ -71,8 +71,7 @@ enum class DataType {
     Int64,
     UInt64,
     String,
-    Array,
-    Ptr
+    Array
 };
 
 enum class Attr {

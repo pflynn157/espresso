@@ -22,7 +22,6 @@ std::string printDataType(DataType dataType) {
         case DataType::UInt64: return "uint64";
         case DataType::String: return "string";
         case DataType::Array: return "array";
-        case DataType::Ptr: return "ptr";
     }
     return "";
 }
