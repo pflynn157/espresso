@@ -10,12 +10,14 @@
 struct Method {
     std::string name;
     std::string baseClass;
+    std::string signature;
     int pos;
 
-    Method(std::string name, int pos, std::string baseClass = "") {
+    Method(std::string name, int pos, std::string baseClass = "", std::string signature = "") {
         this->name = name;
         this->pos = pos;
         this->baseClass = baseClass;
+        this->signature = signature;
     }
 };
 
@@ -26,7 +28,7 @@ public:
     int ImportClass(std::string baseClass);
     void ImportMethod(std::string baseClass, std::string name, std::string signature);
     void ImportField(std::string baseClass, std::string typeClass, std::string name);
-    int FindMethod(std::string name, std::string baseClass);
+    int FindMethod(std::string name, std::string baseClass, std::string signature);
 
     JavaFunction *CreateMethod(std::string name, std::string signature, int = F_PUBLIC);
     void CreateALoad(JavaFunction *func, int pos);
@@ -35,10 +37,13 @@ public:
     void CreateDup(JavaFunction *func);
     void CreateGetStatic(JavaFunction *func, std::string name);
     void CreateString(JavaFunction *func, std::string value);
-    void CreateInvokeSpecial(JavaFunction *func, std::string name, std::string baseClass = "");
-    void CreateInvokeVirtual(JavaFunction *func, std::string name, std::string baseClass = "");
-    void CreateInvokeStatic(JavaFunction *func, std::string name, std::string baseClass = "");
+    void CreateInvokeSpecial(JavaFunction *func, std::string name, std::string baseClass = "", std::string signature = "");
+    void CreateInvokeVirtual(JavaFunction *func, std::string name, std::string baseClass = "", std::string signature = "");
+    void CreateInvokeStatic(JavaFunction *func, std::string name, std::string baseClass = "", std::string signature = "");
     void CreateRetVoid(JavaFunction *func);
+    
+    // Integer instructions
+    void CreateBIPush(JavaFunction *func, int value);
 
     void Write(FILE *file);
 private:

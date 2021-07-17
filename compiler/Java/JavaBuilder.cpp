@@ -74,7 +74,7 @@ void JavaClassBuilder::ImportMethod(std::string baseClass, std::string name, std
     int methodPos = java->AddConst(method);
 
     //methodMap[name] = methodPos;
-    Method m(name, methodPos, baseClass);
+    Method m(name, methodPos, baseClass, signature);
     methodMap.push_back(m);
 }
 
@@ -101,19 +101,21 @@ void JavaClassBuilder::ImportField(std::string baseClass, std::string typeClass,
 }
 
 // Finds a method in the method table
-int JavaClassBuilder::FindMethod(std::string name, std::string baseClass) {
-    bool findFirst = false;
-    if (baseClass == "") findFirst = true;
-
-    for (Method m : methodMap) {
-        if (findFirst) {
-            if (m.name == name) {
-                return m.pos;
+int JavaClassBuilder::FindMethod(std::string name, std::string baseClass, std::string signature) {
+    for (auto m : methodMap) {
+        if (m.name == name) {
+            bool found1 = true;
+            bool found2 = true;
+            
+            if (baseClass != "") {
+                if (m.baseClass != baseClass) found1 = false;
             }
-        } else {
-            if (m.name == name && m.baseClass == baseClass) {
-                return m.pos;
+            
+            if (signature != "") {
+                if (m.signature != signature) found2 = false;
             }
+            
+            if (found1 && found2) return m.pos;
         }
     }
 

@@ -92,24 +92,24 @@ void JavaClassBuilder::CreateString(JavaFunction *func, std::string value) {
 }
 
 // Creates an InvokeSpecial instruction
-void JavaClassBuilder::CreateInvokeSpecial(JavaFunction *func, std::string name, std::string baseClass) {
-    int methodPos = FindMethod(name, baseClass);
+void JavaClassBuilder::CreateInvokeSpecial(JavaFunction *func, std::string name, std::string baseClass, std::string signature) {
+    int methodPos = FindMethod(name, baseClass, signature);
 
     JavaCode code(0xB7, (unsigned short)methodPos);
     func->addCode(code);
 }
 
 // Creates an InvokeVirtual instruction
-void JavaClassBuilder::CreateInvokeVirtual(JavaFunction *func, std::string name, std::string baseClass) {
-    int methodPos = FindMethod(name, baseClass);
+void JavaClassBuilder::CreateInvokeVirtual(JavaFunction *func, std::string name, std::string baseClass, std::string signature) {
+    int methodPos = FindMethod(name, baseClass, signature);
 
     JavaCode code(0xB6, (unsigned short)methodPos);
     func->addCode(code);
 }
 
 // Creates an InvokeStatic instruction
-void JavaClassBuilder::CreateInvokeStatic(JavaFunction *func, std::string name, std::string baseClass) {
-    int methodPos = FindMethod(name, baseClass);
+void JavaClassBuilder::CreateInvokeStatic(JavaFunction *func, std::string name, std::string baseClass, std::string signature) {
+    int methodPos = FindMethod(name, baseClass, signature);
 
     JavaCode code(0xB8, (unsigned short)methodPos);
     func->addCode(code);
@@ -118,4 +118,10 @@ void JavaClassBuilder::CreateInvokeStatic(JavaFunction *func, std::string name, 
 // Creates a return-void call
 void JavaClassBuilder::CreateRetVoid(JavaFunction *func) {
     func->addCode(JavaCode(0xB1));
+}
+
+// Creates a bipush call
+void JavaClassBuilder::CreateBIPush(JavaFunction *func, int value) {
+    JavaCode code(0x10, (unsigned char)value);
+    func->addCode(code);
 }

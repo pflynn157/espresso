@@ -18,6 +18,7 @@ protected:
     void BuildStatement(AstStatement *stmt, JavaFunction *function);
     void BuildFuncCallStatement(AstStatement *stmt, JavaFunction *function);
     void BuildExpr(AstExpression *expr, JavaFunction *function);
+    std::string GetTypeForExpr(AstExpression *expr);
 private:
     std::string className;
     JavaClassBuilder *builder;

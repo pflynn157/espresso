@@ -1,4 +1,5 @@
 #include <cstdio>
+#include <iostream>
 
 #include <Compiler.hpp>
 
@@ -64,16 +65,26 @@ void Compiler::BuildFuncCallStatement(AstStatement *stmt, JavaFunction *function
         builder->CreateGetStatic(function, "out");
     }
     
+    std::string signature = "";
+    
     for (AstExpression *expr : fc->getExpressions()) {
+        signature = GetTypeForExpr(expr);
         BuildExpr(expr, function);
     }
     
-    builder->CreateInvokeVirtual(function, fc->getName());
+    signature = "(" + signature + ")V";
+    std::cout << "SIG: " << signature << std::endl;
+    builder->CreateInvokeVirtual(function, fc->getName(), "", signature);
 }
 
 // Builds an expression
 void Compiler::BuildExpr(AstExpression *expr, JavaFunction *function) {
     switch (expr->getType()) {
+        case AstType::IntL: {
+            AstInt *i = static_cast<AstInt *>(expr);
+            builder->CreateBIPush(function, i->getValue());
+        } break;
+    
         case AstType::StringL: {
             AstString *str = static_cast<AstString *>(expr);
             builder->CreateString(function, str->getValue());
@@ -81,4 +92,16 @@ void Compiler::BuildExpr(AstExpression *expr, JavaFunction *function) {
         
         default: {}
     }
+}
+
+// Returns a type value for an expression
+std::string Compiler::GetTypeForExpr(AstExpression *expr) {
+    switch (expr->getType()) {
+        case AstType::IntL: return "I";
+        case AstType::StringL: return "Ljava/lang/String;";
+        
+        default: {}
+    }
+
+    return "V";
 }
