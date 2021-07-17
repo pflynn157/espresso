@@ -8,6 +8,7 @@ Compiler::Compiler(std::string className) {
     
     builder->ImportField("java/lang/System", "java/io/PrintStream", "out");
     builder->ImportMethod("java/io/PrintStream", "println", "(Ljava/lang/String;)V");
+    builder->ImportMethod("java/io/PrintStream", "println", "(I)V");
 }
 
 void Compiler::Build(AstTree *tree) {
@@ -41,12 +42,41 @@ void Compiler::BuildFunction(AstGlobalStatement *GS) {
 // Builds a statement
 void Compiler::BuildStatement(AstStatement *stmt, JavaFunction *function) {
     switch (stmt->getType()) {
+        case AstType::FuncCallStmt: BuildFuncCallStatement(stmt, function); break;
+    
         case AstType::Return: {
             if (stmt->getExpressionCount() == 0) {
                 builder->CreateRetVoid(function);
             } else {
                 // TODO
             }
+        } break;
+        
+        default: {}
+    }
+}
+
+// Builds a function call statement
+void Compiler::BuildFuncCallStatement(AstStatement *stmt, JavaFunction *function) {
+    AstFuncCallStmt *fc = static_cast<AstFuncCallStmt *>(stmt);
+    
+    if (fc->getName() == "println") {
+        builder->CreateGetStatic(function, "out");
+    }
+    
+    for (AstExpression *expr : fc->getExpressions()) {
+        BuildExpr(expr, function);
+    }
+    
+    builder->CreateInvokeVirtual(function, fc->getName());
+}
+
+// Builds an expression
+void Compiler::BuildExpr(AstExpression *expr, JavaFunction *function) {
+    switch (expr->getType()) {
+        case AstType::StringL: {
+            AstString *str = static_cast<AstString *>(expr);
+            builder->CreateString(function, str->getValue());
         } break;
         
         default: {}

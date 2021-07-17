@@ -1,5 +1,5 @@
 
 func main(args : str[]) is
-    var x : int := 0;
+    println("Hello!");
 end
 

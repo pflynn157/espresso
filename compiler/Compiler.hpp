@@ -16,6 +16,8 @@ public:
 protected:
     void BuildFunction(AstGlobalStatement *GS);
     void BuildStatement(AstStatement *stmt, JavaFunction *function);
+    void BuildFuncCallStatement(AstStatement *stmt, JavaFunction *function);
+    void BuildExpr(AstExpression *expr, JavaFunction *function);
 private:
     std::string className;
     JavaClassBuilder *builder;
