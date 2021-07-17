@@ -75,6 +75,12 @@ enum class DataType {
     Ptr
 };
 
+enum class Attr {
+    Public,
+    Protected,
+    Private
+};
+
 struct Var {
     std::string name;
     DataType type;

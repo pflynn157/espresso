@@ -30,12 +30,17 @@ private:
 // Represents a function
 class AstFunction : public AstGlobalStatement {
 public:
-    explicit AstFunction(std::string name) : AstGlobalStatement(AstType::Func) {
+    explicit AstFunction(std::string name, bool routine = false, Attr attr = Attr::Public) 
+             : AstGlobalStatement(AstType::Func) {
         this->name = name;
+        this->routine = routine;
+        this->attr = attr;
         block = new AstBlock;
     }
     
     std::string getName() { return name; }
+    bool isRoutine() { return routine; }
+    Attr getAttribute() { return attr; }
     DataType getDataType() { return dataType; }
     DataType getPtrType() { return ptrType; }
     std::vector<Var> getArguments() { return args; }
@@ -55,6 +60,8 @@ public:
     void print() override;
 private:
     std::string name = "";
+    bool routine = false;
+    Attr attr = Attr::Public;
     std::vector<Var> args;
     AstBlock *block;
     DataType dataType = DataType::Void;

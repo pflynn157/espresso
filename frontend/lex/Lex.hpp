@@ -16,6 +16,10 @@ enum TokenType {
     
     // Keywords
     Func,
+    Routine,
+    Public,
+    Protected,
+    Private,
     Enum,
     End,
     Return,

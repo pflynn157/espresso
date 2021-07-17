@@ -190,6 +190,10 @@ bool Scanner::isSymbol(char c) {
 
 TokenType Scanner::getKeyword() {
     if (buffer == "func") return Func;
+    else if (buffer == "routine") return Routine;
+    else if (buffer == "public") return Public;
+    else if (buffer == "protected") return Protected;
+    else if (buffer == "private") return Private;
     else if (buffer == "enum") return Enum;
     else if (buffer == "end") return End;
     else if (buffer == "return") return Return;

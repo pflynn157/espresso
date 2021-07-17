@@ -33,7 +33,16 @@ void Compiler::Write() {
 void Compiler::BuildFunction(AstGlobalStatement *GS) {
     AstFunction *func = static_cast<AstFunction *>(GS);
     
-    JavaFunction *function = builder->CreateMethod(func->getName(), "([Ljava/lang/String;)V", F_PUBLIC | F_STATIC);
+    int flags = 0;
+    if (func->isRoutine()) flags |= F_STATIC;
+    
+    switch (func->getAttribute()) {
+        case Attr::Public: flags |= F_PUBLIC; break;
+        case Attr::Protected: flags |= F_PROTECTED; break;
+        case Attr::Private: flags |= F_PRIVATE; break;
+    }
+    
+    JavaFunction *function = builder->CreateMethod(func->getName(), "([Ljava/lang/String;)V", flags);
     
     for (AstStatement *stmt : func->getBlock()->getBlock()) {
         BuildStatement(stmt, function);

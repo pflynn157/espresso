@@ -1,5 +1,5 @@
 
-func main(args : str[]) is
+routine main(args : str[]) is
     println("Hello!");
     println(30);
 end

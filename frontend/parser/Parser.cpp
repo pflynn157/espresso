@@ -27,6 +27,10 @@ bool Parser::parse() {
         bool code = true;
         
         switch (token.type) {
+            case Public:
+            case Protected:
+            case Private:
+            case Routine:
             case Func: {
                 code = buildFunction(token);
             } break;

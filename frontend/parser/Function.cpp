@@ -85,7 +85,33 @@ bool Parser::buildFunction(Token startToken) {
     typeMap.clear();
     localConsts.clear();
     
+    bool isRoutine = false;
+    Attr visible = Attr::Public;
+    bool attrMod = false;
+    
+    // Check the tokens
+    switch (startToken.type) {
+        case Routine: isRoutine = true; break;
+        
+        case Public: visible = Attr::Public; attrMod = true; break;
+        case Protected: visible = Attr::Protected; attrMod = true; break;
+        case Private: visible = Attr::Private; attrMod = true; break;
+        
+        default: {}
+    }
+    
     Token token;
+    
+    if (attrMod) {
+        token = scanner->getNext();
+        
+        if (token.type == Routine) {
+            isRoutine = true;
+        } else if (token.type != Func) {
+            syntax->addError(scanner->getLine(), "Expected \"func\" or \"routine\".");
+            return false;
+        }
+    }
 
     // Make sure we have a function name
     token = scanner->getNext();
@@ -134,7 +160,7 @@ bool Parser::buildFunction(Token startToken) {
     }
 
     // Create the function object
-    AstFunction *func = new AstFunction(funcName);
+    AstFunction *func = new AstFunction(funcName, isRoutine, visible);
     func->setDataType(funcType, ptrType);
     func->setArguments(args);
     tree->addGlobalStatement(func);

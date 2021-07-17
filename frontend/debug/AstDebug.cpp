@@ -37,7 +37,15 @@ void AstTree::print() {
 }
 
 void AstFunction::print() {
-    std::cout << "FUNC " << name << "(";
+    switch (attr) {
+        case Attr::Public: std::cout << "PUBLIC "; break;
+        case Attr::Protected: std::cout << "PROTECTED "; break;
+        case Attr::Private: std::cout << "PRIVATE "; break;
+    }
+
+    if (routine) std::cout << "ROUTINE " << name << "(";
+    else std::cout << "FUNC " << name << "(";
+    
     for (auto var : args) {
         std::cout << printDataType(var.type);
         if (var.subType != DataType::Void)
