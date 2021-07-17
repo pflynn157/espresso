@@ -94,11 +94,6 @@ void AstVarDec::print() {
     std::cout << std::endl;
 }
 
-void AstStructDec::print() {
-    std::cout << "    ";
-    std::cout << "STRUCT " << varName << " : " << structName << std::endl;
-}
-
 void AstVarAssign::print() {
     std::cout << "    ";
     std::cout << "VAR= " << name << " : " << printDataType(dataType);
@@ -112,12 +107,6 @@ void AstVarAssign::print() {
 void AstArrayAssign::print() {
     std::cout << "    ";
     std::cout << "ARR= " << name;
-    std::cout << std::endl;
-}
-
-void AstStructAssign::print() {
-    std::cout << "    ";
-    std::cout << "STRUCT= " << name << "." << member;
     std::cout << std::endl;
 }
 
@@ -419,10 +408,6 @@ void AstArrayAccess::print() {
     std::cout << val << "[";
     index->print();
     std::cout << "]";
-}
-
-void AstStructAccess::print() {
-    std::cout << var << "." << member;
 }
 
 void AstFuncCallExpr::print() {

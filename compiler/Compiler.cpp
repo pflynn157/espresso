@@ -73,7 +73,6 @@ void Compiler::BuildFuncCallStatement(AstStatement *stmt, JavaFunction *function
     }
     
     signature = "(" + signature + ")V";
-    std::cout << "SIG: " << signature << std::endl;
     builder->CreateInvokeVirtual(function, fc->getName(), "", signature);
 }
 

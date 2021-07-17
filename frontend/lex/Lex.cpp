@@ -192,7 +192,6 @@ TokenType Scanner::getKeyword() {
     if (buffer == "extern") return Extern;
     else if (buffer == "func") return Func;
     else if (buffer == "enum") return Enum;
-    else if (buffer == "struct") return Struct;
     else if (buffer == "end") return End;
     else if (buffer == "return") return Return;
     else if (buffer == "var") return VarD;

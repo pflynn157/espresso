@@ -34,7 +34,6 @@ bool Parser::parse() {
             
             case Const: code = buildConst(true); break;
             case Enum: code = buildEnum(); break;
-            case Struct: code = buildStruct(); break;
             
             case Eof:
             case Nl: break;
@@ -68,7 +67,6 @@ bool Parser::buildBlock(AstBlock *block, int stopLayer, AstIfStmt *parentBlock, 
         
         switch (token.type) {
             case VarD: code = buildVariableDec(block); break;
-            case Struct: code = buildStructDec(block); break;
             case Const: code = buildConst(false); break;
             
             case Id: {
@@ -81,8 +79,6 @@ bool Parser::buildBlock(AstBlock *block, int stopLayer, AstIfStmt *parentBlock, 
                     code = buildArrayAssign(block, idToken);
                 } else if (token.type == LParen) {
                     code = buildFunctionCallStmt(block, idToken);
-                } else if (token.type == Dot) {
-                    code = buildStructAssign(block, idToken);
                 } else {
                     syntax->addError(scanner->getLine(), "Invalid use of identifier.");
                     token.print();
@@ -254,17 +250,6 @@ bool Parser::buildExpression(AstStatement *stmt, DataType currentType, TokenType
                     
                     EnumDec dec = enums[name];
                     AstExpression *val = dec.values[token.id_val];
-                    output.push(val);
-                } else if (token.type == Dot) {
-                    // TODO: Search for structures here
-
-                    token = scanner->getNext();
-                    if (token.type != Id) {
-                        syntax->addError(scanner->getLine(), "Expected identifier.");
-                        return false;
-                    }
-
-                    AstStructAccess *val = new AstStructAccess(name, token.id_val);
                     output.push(val);
                 } else {
                     int constVal = isConstant(name);

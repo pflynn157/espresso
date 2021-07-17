@@ -89,23 +89,6 @@ private:
     DataType ptrType = DataType::Void;
 };
 
-// Represents a structure declaration
-class AstStructDec : public AstStatement {
-public:
-    explicit AstStructDec(std::string varName, std::string structName) : AstStatement(AstType::StructDec) {
-        this->varName = varName;
-        this->structName = structName;
-    }
-    
-    std::string getVarName() { return varName; }
-    std::string getStructName() { return structName; }
-    
-    void print();
-private:
-    std::string varName = "";
-    std::string structName = "";
-};
-
 // Represents a variable assignment
 class AstVarAssign : public AstStatement {
 public:
@@ -146,29 +129,6 @@ private:
     std::string name = "";
     DataType dataType = DataType::Void;
     DataType ptrType = DataType::Void;
-};
-
-// Represents a struct assignment
-class AstStructAssign : public AstStatement {
-public:
-    explicit AstStructAssign(std::string name, std::string member) : AstStatement(AstType::StructAssign) {
-        this->name = name;
-        this->member = member;
-    }
-    
-    void setMemberType(DataType memberType) {
-        this->memberType = memberType;
-    }
-    
-    std::string getName() { return name; }
-    std::string getMember() { return member; }
-    DataType getMemberType() { return memberType; }
-    
-    void print();
-private:
-    std::string name = "";
-    std::string member = "";
-    DataType memberType = DataType::Void;
 };
 
 // Represents a statement with a sub-block
