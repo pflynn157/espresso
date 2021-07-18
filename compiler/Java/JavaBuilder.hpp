@@ -44,6 +44,8 @@ public:
     
     // Integer instructions
     void CreateBIPush(JavaFunction *func, int value);
+    void CreateILoad(JavaFunction *func, int value);
+    void CreateIStore(JavaFunction *func, int value);
 
     void Write(FILE *file);
 private:

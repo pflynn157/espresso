@@ -125,3 +125,31 @@ void JavaClassBuilder::CreateBIPush(JavaFunction *func, int value) {
     JavaCode code(0x10, (unsigned char)value);
     func->addCode(code);
 }
+
+// Creates an i_load call
+void JavaClassBuilder::CreateILoad(JavaFunction *func, int value) {
+    switch (value) {
+        case 0: func->addCode(JavaCode(0x1A)); break;
+        case 1: func->addCode(JavaCode(0x1B)); break;
+        case 2: func->addCode(JavaCode(0x1C)); break;
+        case 3: func->addCode(JavaCode(0x1D)); break;
+
+        default: {
+            func->addCode(JavaCode(0x15, (unsigned char)value));
+        }
+    }
+}
+
+// Creates an i_store call
+void JavaClassBuilder::CreateIStore(JavaFunction *func, int value) {
+    switch (value) {
+        case 0: func->addCode(JavaCode(0x3B)); break;
+        case 1: func->addCode(JavaCode(0x3C)); break;
+        case 2: func->addCode(JavaCode(0x3D)); break;
+        case 3: func->addCode(JavaCode(0x3E)); break;
+
+        default: {
+            func->addCode(JavaCode(0x36, (unsigned char)value));
+        }
+    }
+}

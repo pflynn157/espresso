@@ -1,11 +1,7 @@
 
-func sayHello is
-    println("Hello! How are you?");
-end
-
 routine main(args : str[]) is
-    var one : first;
-    one.sayHello();
+    var x : int = 20;
+    println(x);
 
     println("Hello!");
 end

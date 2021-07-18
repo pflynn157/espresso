@@ -64,6 +64,7 @@ void Compiler::BuildFunction(AstGlobalStatement *GS) {
 void Compiler::BuildStatement(AstStatement *stmt, JavaFunction *function) {
     switch (stmt->getType()) {
         case AstType::VarDec: BuildVarDec(stmt, function); break;
+        case AstType::VarAssign: BuildVarAssign(stmt, function); break;
     
         case AstType::FuncCallStmt: BuildFuncCallStatement(stmt, function); break;
     
@@ -84,6 +85,11 @@ void Compiler::BuildVarDec(AstStatement *stmt, JavaFunction *function) {
     AstVarDec *vd = static_cast<AstVarDec *>(stmt);
     
     switch (vd->getDataType()) {
+        case DataType::Int32: {
+            intMap[vd->getName()] = iCount;
+            ++iCount;
+        } break;
+    
         case DataType::Object: {
             objMap[vd->getName()] = aCount;
             ++aCount;
@@ -94,6 +100,22 @@ void Compiler::BuildVarDec(AstStatement *stmt, JavaFunction *function) {
             builder->CreateDup(function);
             builder->CreateInvokeSpecial(function, "<init>", vd->getClassName());
             builder->CreateAStore(function, aCount - 1);
+        } break;
+        
+        default: {}
+    }
+}
+
+// Builds a variable assignment
+void Compiler::BuildVarAssign(AstStatement *stmt, JavaFunction *function) {
+    AstVarAssign *va = static_cast<AstVarAssign *>(stmt);
+    
+    BuildExpr(va->getExpression(), function, va->getDataType());
+    
+    switch (va->getDataType()) {
+        case DataType::Int32: {
+            int iPos = intMap[va->getName()];
+            builder->CreateIStore(function, iPos);
         } break;
         
         default: {}
@@ -129,7 +151,7 @@ void Compiler::BuildFuncCallStatement(AstStatement *stmt, JavaFunction *function
 }
 
 // Builds an expression
-void Compiler::BuildExpr(AstExpression *expr, JavaFunction *function) {
+void Compiler::BuildExpr(AstExpression *expr, JavaFunction *function, DataType dataType) {
     switch (expr->getType()) {
         case AstType::IntL: {
             AstInt *i = static_cast<AstInt *>(expr);
@@ -141,6 +163,23 @@ void Compiler::BuildExpr(AstExpression *expr, JavaFunction *function) {
             builder->CreateString(function, str->getValue());
         } break;
         
+        case AstType::ID: {
+            AstID *id = static_cast<AstID *>(expr);
+            switch (dataType) {
+                case DataType::Int32: {
+                    int pos = intMap[id->getValue()];
+                    builder->CreateILoad(function, pos);
+                } break;
+                
+                default: {
+                    if (intMap.find(id->getValue()) != intMap.end()) {
+                        int pos = intMap[id->getValue()];
+                        builder->CreateILoad(function, pos);
+                    }
+                }
+            }
+        } break;
+        
         default: {}
     }
 }
@@ -150,6 +189,14 @@ std::string Compiler::GetTypeForExpr(AstExpression *expr) {
     switch (expr->getType()) {
         case AstType::IntL: return "I";
         case AstType::StringL: return "Ljava/lang/String;";
+        
+        case AstType::ID: {
+            AstID *id = static_cast<AstID *>(expr);
+            
+            if (intMap.find(id->getValue()) != intMap.end()) {
+                return "I";
+            }
+        } break;
         
         default: {}
     }

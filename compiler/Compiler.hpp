@@ -19,8 +19,9 @@ protected:
     void BuildStatement(AstStatement *stmt, JavaFunction *function);
     
     void BuildVarDec(AstStatement *stmt, JavaFunction *function);
+    void BuildVarAssign(AstStatement *stmt, JavaFunction *function);
     void BuildFuncCallStatement(AstStatement *stmt, JavaFunction *function);
-    void BuildExpr(AstExpression *expr, JavaFunction *function);
+    void BuildExpr(AstExpression *expr, JavaFunction *function, DataType dataType = DataType::Void);
     
     std::string GetTypeForExpr(AstExpression *expr);
 private:
@@ -30,4 +31,7 @@ private:
     int aCount = 1;
     std::map<std::string, int> objMap;
     std::map<std::string, std::string> objTypeMap;
+    
+    int iCount = 1;
+    std::map<std::string, int> intMap;
 };
