@@ -358,6 +358,12 @@ bool Parser::buildExpression(AstStatement *stmt, DataType currentType, TokenType
                 opStack.push(div);
             } break;
             
+            case Mod: {
+                lastWasOp = true;
+                AstRemOp *rem = new AstRemOp;
+                opStack.push(rem);
+            } break;
+            
             case EQ: opStack.push(new AstEQOp); lastWasOp = true; break;
             case NEQ: opStack.push(new AstNEQOp); lastWasOp = true; break;
             case GT: opStack.push(new AstGTOp); lastWasOp = true; break;

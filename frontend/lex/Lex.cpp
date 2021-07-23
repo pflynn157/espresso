@@ -180,7 +180,8 @@ bool Scanner::isSymbol(char c) {
         case '+': 
         case '-': 
         case '*': 
-        case '/': 
+        case '/':
+        case '%':
         case '>':
         case '<': 
         case '!': return true;
@@ -242,6 +243,7 @@ TokenType Scanner::getSymbol(char c) {
         case '+': return Plus;
         case '*': return Mul;
         case '/': return Div;
+        case '%': return Mod;
         case '=': return EQ;
         
         case ':': {

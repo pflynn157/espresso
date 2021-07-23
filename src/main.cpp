@@ -22,7 +22,7 @@ int main(int argc, char **argv) {
     std::string input = "";
     bool testLex = false;
     bool printAst = false;
-    bool runJavaP = true;
+    bool runJavaP = false;
     
     for (int i = 1; i<argc; i++) {
         std::string arg = argv[i];

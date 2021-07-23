@@ -180,6 +180,27 @@ void Compiler::BuildExpr(AstExpression *expr, JavaFunction *function, DataType d
             }
         } break;
         
+        case AstType::Add: 
+        case AstType::Sub:
+        case AstType::Mul:
+        case AstType::Div:
+        case AstType::Rem: {
+            AstBinaryOp *op = static_cast<AstBinaryOp *>(expr);
+            BuildExpr(op->getLVal(), function, dataType);
+            BuildExpr(op->getRVal(), function, dataType);
+            
+            if (expr->getType() == AstType::Add)
+                builder->CreateIAdd(function);
+            else if (expr->getType() == AstType::Sub)
+                builder->CreateISub(function);
+            else if (expr->getType() == AstType::Mul)
+                builder->CreateIMul(function);
+            else if (expr->getType() == AstType::Div)
+                builder->CreateIDiv(function);
+            else if (expr->getType() == AstType::Rem)
+                builder->CreateIRem(function);
+        } break;
+        
         default: {}
     }
 }

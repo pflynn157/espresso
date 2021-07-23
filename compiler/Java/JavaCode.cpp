@@ -153,3 +153,28 @@ void JavaClassBuilder::CreateIStore(JavaFunction *func, int value) {
         }
     }
 }
+
+// Creates an i_add instruction
+void JavaClassBuilder::CreateIAdd(JavaFunction *func) {
+    func->addCode(JavaCode(0x60));
+}
+
+// Creates an i_sub instruction
+void JavaClassBuilder::CreateISub(JavaFunction *func) {
+    func->addCode(JavaCode(0x64));
+}
+
+// Creates an i_mul instruction
+void JavaClassBuilder::CreateIMul(JavaFunction *func) {
+    func->addCode(JavaCode(0x68));
+}
+
+// Creates an i_div instruction
+void JavaClassBuilder::CreateIDiv(JavaFunction *func) {
+    func->addCode(JavaCode(0x6C));
+}
+
+// Creates an i_rem instruction
+void JavaClassBuilder::CreateIRem(JavaFunction *func) {
+    func->addCode(JavaCode(0x70));
+}

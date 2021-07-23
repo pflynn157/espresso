@@ -46,6 +46,11 @@ public:
     void CreateBIPush(JavaFunction *func, int value);
     void CreateILoad(JavaFunction *func, int value);
     void CreateIStore(JavaFunction *func, int value);
+    void CreateIAdd(JavaFunction *func);
+    void CreateISub(JavaFunction *func);
+    void CreateIMul(JavaFunction *func);
+    void CreateIDiv(JavaFunction *func);
+    void CreateIRem(JavaFunction *func);
 
     void Write(FILE *file);
 private:

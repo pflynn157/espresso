@@ -100,6 +100,16 @@ public:
     void print();
 };
 
+// Represents a remainder (modulo) operation
+class AstRemOp : public AstBinaryOp {
+public:
+    AstRemOp() {
+        this->type = AstType::Rem;
+    }
+    
+    void print();
+};
+
 // Represents an equal-to operation
 class AstEQOp : public AstBinaryOp {
 public:

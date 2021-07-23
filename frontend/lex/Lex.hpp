@@ -82,6 +82,7 @@ enum TokenType {
     Minus,
     Mul,
     Div,
+    Mod,
     
     EQ,
     NEQ,

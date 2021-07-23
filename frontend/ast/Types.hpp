@@ -39,6 +39,7 @@ enum class AstType {
     Sub,
     Mul,
     Div,
+    Rem,
     
     EQ,
     NEQ,

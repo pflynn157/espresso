@@ -138,7 +138,7 @@ struct JavaCodeBlock {
     unsigned short codeIdx = 0;
     unsigned int size = 12;   // Code size is added when written
     unsigned short stackSize = htons(5);
-    unsigned short maxVars = htons(5);
+    unsigned short maxVars = htons(20);
 
     std::vector<JavaCode> code;
 

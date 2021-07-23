@@ -319,6 +319,14 @@ void AstDivOp::print() {
     std::cout << ")";
 }
 
+void AstRemOp::print() {
+    std::cout << "(";
+    lval->print();
+    std::cout << ") % (";
+    rval->print();
+    std::cout << ")";
+}
+
 void AstEQOp::print() {
     std::cout << "(";
     lval->print();
