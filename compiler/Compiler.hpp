@@ -27,6 +27,7 @@ protected:
 private:
     std::string className;
     JavaClassBuilder *builder;
+    std::map<std::string, JavaFunction *> funcMap;
     
     int aCount = 1;
     std::map<std::string, int> objMap;

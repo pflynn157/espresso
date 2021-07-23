@@ -21,10 +21,22 @@ void Compiler::Build(AstTree *tree) {
     builder->CreateInvokeSpecial(construct, "<init>", "java/lang/Object");
     builder->CreateRetVoid(construct);
 
-    // Build the functions
+    // Build the functions (declarations only)
     for (auto GS : tree->getGlobalStatements()) {
         if (GS->getType() == AstType::Func) {
             BuildFunction(GS);
+        }
+    }
+    
+    // Now the code
+    for (auto GS : tree->getGlobalStatements()) {
+        if (GS->getType() == AstType::Func) {
+            AstFunction *funcAst = static_cast<AstFunction *>(GS);
+            JavaFunction *func = funcMap[funcAst->getName()];
+            
+            for (AstStatement *stmt : funcAst->getBlock()->getBlock()) {
+                BuildStatement(stmt, func);
+            }
         }
     }
 }
@@ -54,10 +66,11 @@ void Compiler::BuildFunction(AstGlobalStatement *GS) {
     if (func->getName() == "main") signature = "([Ljava/lang/String;)V";
     
     JavaFunction *function = builder->CreateMethod(func->getName(), signature, flags);
+    funcMap[func->getName()] = function;
     
-    for (AstStatement *stmt : func->getBlock()->getBlock()) {
+    /*for (AstStatement *stmt : func->getBlock()->getBlock()) {
         BuildStatement(stmt, function);
-    }
+    }*/
 }
 
 // Builds a statement
