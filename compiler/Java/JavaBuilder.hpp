@@ -51,6 +51,11 @@ public:
     void CreateIMul(JavaFunction *func);
     void CreateIDiv(JavaFunction *func);
     void CreateIRem(JavaFunction *func);
+    void CreateIAnd(JavaFunction *func);
+    void CreateIOr(JavaFunction *func);
+    void CreateIXor(JavaFunction *func);
+    void CreateIShl(JavaFunction *func);
+    void CreateIShr(JavaFunction *func);
 
     void Write(FILE *file);
 private:

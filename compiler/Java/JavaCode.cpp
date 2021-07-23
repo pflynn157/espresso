@@ -178,3 +178,28 @@ void JavaClassBuilder::CreateIDiv(JavaFunction *func) {
 void JavaClassBuilder::CreateIRem(JavaFunction *func) {
     func->addCode(JavaCode(0x70));
 }
+
+// Creates an i_and instruction
+void JavaClassBuilder::CreateIAnd(JavaFunction *func) {
+    func->addCode(JavaCode(0x7E));
+}
+
+// Creates an i_or instruction
+void JavaClassBuilder::CreateIOr(JavaFunction *func) {
+    func->addCode(JavaCode(0x80));
+}
+
+// Creates an i_xor instruction
+void JavaClassBuilder::CreateIXor(JavaFunction *func) {
+    func->addCode(JavaCode(0x82));
+}
+
+// Creates an i_shl instruction
+void JavaClassBuilder::CreateIShl(JavaFunction *func) {
+    func->addCode(JavaCode(0x78));
+}
+
+// Creates an i_shr instruction
+void JavaClassBuilder::CreateIShr(JavaFunction *func) {
+    func->addCode(JavaCode(0x7A));
+}

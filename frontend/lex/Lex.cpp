@@ -183,7 +183,10 @@ bool Scanner::isSymbol(char c) {
         case '/':
         case '%':
         case '>':
-        case '<': 
+        case '<':
+        case '&':
+        case '|':
+        case '^':
         case '!': return true;
     }
     return false;
@@ -245,6 +248,9 @@ TokenType Scanner::getSymbol(char c) {
         case '/': return Div;
         case '%': return Mod;
         case '=': return EQ;
+        case '&': return And;
+        case '|': return Or;
+        case '^': return Xor;
         
         case ':': {
             char c2 = reader.get();
@@ -265,6 +271,9 @@ TokenType Scanner::getSymbol(char c) {
             if (c2 == '=') {
                 rawBuffer += c2;
                 return GTE;
+            } else if (c2 == '>') {
+                rawBuffer += c2;
+                return Rsh;
             } else {
                 reader.unget();
                 return GT;
@@ -276,6 +285,9 @@ TokenType Scanner::getSymbol(char c) {
             if (c2 == '=') {
                 rawBuffer += c2;
                 return LTE;
+            } else if (c2 == '<') {
+                rawBuffer += c2;
+                return Lsh;
             } else {
                 reader.unget();
                 return LT;

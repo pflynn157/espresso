@@ -327,6 +327,46 @@ void AstRemOp::print() {
     std::cout << ")";
 }
 
+void AstAndOp::print() {
+    std::cout << "(";
+    lval->print();
+    std::cout << ") & (";
+    rval->print();
+    std::cout << ")";
+}
+
+void AstOrOp::print() {
+    std::cout << "(";
+    lval->print();
+    std::cout << ") | (";
+    rval->print();
+    std::cout << ")";
+}
+
+void AstXorOp::print() {
+    std::cout << "(";
+    lval->print();
+    std::cout << ") ^ (";
+    rval->print();
+    std::cout << ")";
+}
+
+void AstLshOp::print() {
+    std::cout << "(";
+    lval->print();
+    std::cout << ") << (";
+    rval->print();
+    std::cout << ")";
+}
+
+void AstRshOp::print() {
+    std::cout << "(";
+    lval->print();
+    std::cout << ") >> (";
+    rval->print();
+    std::cout << ")";
+}
+
 void AstEQOp::print() {
     std::cout << "(";
     lval->print();

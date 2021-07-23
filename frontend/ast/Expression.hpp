@@ -110,6 +110,56 @@ public:
     void print();
 };
 
+// Represents an AND operation
+class AstAndOp : public AstBinaryOp {
+public:
+    AstAndOp() {
+        this->type = AstType::And;
+    }
+    
+    void print();
+};
+
+// Represents an OR operation
+class AstOrOp : public AstBinaryOp {
+public:
+    AstOrOp() {
+        this->type = AstType::Or;
+    }
+    
+    void print();
+};
+
+// Represents an XOR operation
+class AstXorOp : public AstBinaryOp {
+public:
+    AstXorOp() {
+        this->type = AstType::Xor;
+    }
+    
+    void print();
+};
+
+// Represents an LSH operation
+class AstLshOp : public AstBinaryOp {
+public:
+    AstLshOp() {
+        this->type = AstType::Lsh;
+    }
+    
+    void print();
+};
+
+// Represents an RSH operation
+class AstRshOp : public AstBinaryOp {
+public:
+    AstRshOp() {
+        this->type = AstType::Rsh;
+    }
+    
+    void print();
+};
+
 // Represents an equal-to operation
 class AstEQOp : public AstBinaryOp {
 public:

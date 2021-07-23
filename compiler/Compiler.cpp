@@ -184,11 +184,17 @@ void Compiler::BuildExpr(AstExpression *expr, JavaFunction *function, DataType d
         case AstType::Sub:
         case AstType::Mul:
         case AstType::Div:
-        case AstType::Rem: {
+        case AstType::Rem:
+        case AstType::And:
+        case AstType::Or:
+        case AstType::Xor:
+        case AstType::Lsh:
+        case AstType::Rsh: {
             AstBinaryOp *op = static_cast<AstBinaryOp *>(expr);
             BuildExpr(op->getLVal(), function, dataType);
             BuildExpr(op->getRVal(), function, dataType);
             
+            // Math
             if (expr->getType() == AstType::Add)
                 builder->CreateIAdd(function);
             else if (expr->getType() == AstType::Sub)
@@ -199,6 +205,18 @@ void Compiler::BuildExpr(AstExpression *expr, JavaFunction *function, DataType d
                 builder->CreateIDiv(function);
             else if (expr->getType() == AstType::Rem)
                 builder->CreateIRem(function);
+            
+            // Logical
+            else if (expr->getType() == AstType::And)
+                builder->CreateIAnd(function);
+            else if (expr->getType() == AstType::Or)
+                builder->CreateIOr(function);
+            else if (expr->getType() == AstType::Xor)
+                builder->CreateIXor(function);
+            else if (expr->getType() == AstType::Lsh)
+                builder->CreateIShl(function);
+            else if (expr->getType() == AstType::Rsh)
+                builder->CreateIShr(function);
         } break;
         
         default: {}

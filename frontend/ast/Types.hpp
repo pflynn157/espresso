@@ -41,6 +41,12 @@ enum class AstType {
     Div,
     Rem,
     
+    And,
+    Or,
+    Xor,
+    Lsh,
+    Rsh,
+    
     EQ,
     NEQ,
     GT,

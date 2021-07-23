@@ -84,6 +84,12 @@ enum TokenType {
     Div,
     Mod,
     
+    And,
+    Or,
+    Xor,
+    Lsh,
+    Rsh,
+    
     EQ,
     NEQ,
     GT,
