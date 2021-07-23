@@ -133,7 +133,10 @@ void Compiler::BuildFuncCallStatement(AstStatement *stmt, JavaFunction *function
     std::string signature = "";
     std::string baseClass = "";
     
-    if (fc->getObjectName() != "") {
+    if (fc->getObjectName() == "this") {
+        baseClass = "this";
+        builder->CreateALoad(function, 0);
+    } else if (fc->getObjectName() != "") {
         baseClass = objTypeMap[fc->getObjectName()];
         //if (baseClass == className) baseClass = "";
         

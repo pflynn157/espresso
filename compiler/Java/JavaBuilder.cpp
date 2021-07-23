@@ -108,7 +108,7 @@ int JavaClassBuilder::FindMethod(std::string name, std::string baseClass, std::s
             bool found2 = true;
             
             if (baseClass != "") {
-                if (m.baseClass != baseClass) found1 = false;
+                if (m.baseClass != baseClass && baseClass != "this") found1 = false;
             }
             
             if (signature != "") {
