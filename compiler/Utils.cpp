@@ -1,3 +1,8 @@
+//
+// Copyright 2021 Patrick Flynn
+// This file is part of the Espresso compiler.
+// Espresso is licensed under the BSD-3 license. See the COPYING file for more information.
+//
 #include <Compiler.hpp>
 
 std::string GetClassName(std::string input) {
