@@ -4,4 +4,4 @@ Espresso is yet another compiler, but this is quite different from my other comp
 
 This project is proof-of-concept; as a result, it is rather incomplete. It is a good project if you're interested in using the JVM as a target, but as a useful language, it is not.
 
-See my website for more information on the project: [https://patrickflynn.co/espresso/](https://patrickflynn.co/espresso/)
+See my website for more information on the project: [https://patrickflynn.xyz/espresso/](https://patrickflynn.xyz/espresso/)
